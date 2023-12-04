@@ -2,7 +2,7 @@ use clap::Parser;
 
 use crate::{
     args::{Args, PartSelector},
-    AocError, Solution,
+    prelude::*,
 };
 
 pub struct Solver {
@@ -47,7 +47,7 @@ impl Solver {
         if self.args.real {
             match solution.get_solution(&input) {
                 Ok(solution) => {
-                    println!(">> solution: {}", solution);
+                    Logger::lib_log(&format!("solution: {}", solution), LogLevel::Success);
                     Ok(())
                 }
                 Err(e) => Err(e),
@@ -57,14 +57,17 @@ impl Solver {
                 Ok(solution) => match expected {
                     Some(expected) => {
                         if expected == solution {
-                            println!(">> test successfull");
+                            Logger::lib_log("test successfull", LogLevel::Success);
                             Ok(())
                         } else {
                             Err(AocError::TestFailed(expected, solution))
                         }
                     }
                     None => {
-                        println!(">> solution (test): {}", solution);
+                        Logger::lib_log(
+                            &format!("solution (test): {}", solution),
+                            LogLevel::Success,
+                        );
                         Ok(())
                     }
                 },
@@ -85,7 +88,10 @@ impl Solver {
 
         let file_name = format!("input/day{:02}{}", self.day, file_suffix);
 
-        println!(">> using '{}' as input file", file_name);
+        Logger::lib_log(
+            &format!("using '{}' as input file", file_name),
+            LogLevel::Info,
+        );
 
         match std::fs::read_to_string(&file_name) {
             Ok(file_contents) => Ok(file_contents),

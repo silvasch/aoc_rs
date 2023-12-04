@@ -1,4 +1,4 @@
-use aoc_rs::{AocError, Solution, Solver};
+use aoc_rs::prelude::*;
 
 struct PartOneSolution;
 
