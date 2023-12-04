@@ -11,6 +11,9 @@ pub struct Args {
 
     #[arg(long)]
     pub print_input: bool,
+
+    #[arg(long)]
+    pub hide_log: bool,
 }
 
 #[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, ValueEnum)]

@@ -1,7 +1,8 @@
-use crate::AocError;
+use crate::{AocError, Logger};
 
 pub trait Solution {
-    fn get_solution(&mut self, _input: &str) -> Result<i64, AocError> {
+    #[allow(unused)]
+    fn get_solution(&mut self, input: &str, logger: &Logger) -> Result<i64, AocError> {
         Err(AocError::NotImplemented)
     }
 }

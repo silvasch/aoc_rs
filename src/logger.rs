@@ -1,6 +1,8 @@
 use colored::{ColoredString, Colorize};
 
-pub struct Logger;
+pub struct Logger {
+    active: bool,
+}
 
 pub enum LogLevel {
     Info,
@@ -10,11 +12,18 @@ pub enum LogLevel {
 }
 
 impl Logger {
-    pub fn log(msg: &str, lvl: LogLevel) {
+    pub(crate) fn new(active: bool) -> Self {
+        Self { active }
+    }
+
+    pub fn log(&self, msg: &str, lvl: LogLevel) {
+        if !self.active {
+            return;
+        }
         println!("{}", Logger::colorize(msg, lvl));
     }
 
-    pub(crate) fn lib_log(msg: &str, lvl: LogLevel) {
+    pub(crate) fn lib_log(&self, msg: &str, lvl: LogLevel) {
         println!(">> {}", Logger::colorize(msg, lvl));
     }
 
