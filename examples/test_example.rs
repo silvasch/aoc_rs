@@ -3,9 +3,9 @@ use aoc_rs::prelude::*;
 struct PartOneSolution;
 
 impl Solution for PartOneSolution {
-    fn get_solution(&mut self, input: &str, logger: &Logger) -> Result<i64, aoc_rs::AocError> {
+    fn get_solution(&mut self, input: &str) -> Result<i64, aoc_rs::AocError> {
         let input = input.trim();
-        logger.log("Hello, World!", LogLevel::Info);
+        Logger::log("Hello, World!", LogLevel::Info);
         match input.parse::<i64>() {
             Ok(solution) => Ok(solution),
             Err(_) => Err(AocError::SolutionFailed(
@@ -18,7 +18,7 @@ impl Solution for PartOneSolution {
 struct PartTwoSolution;
 
 impl Solution for PartTwoSolution {
-    fn get_solution(&mut self, input: &str, _logger: &Logger) -> Result<i64, aoc_rs::AocError> {
+    fn get_solution(&mut self, input: &str) -> Result<i64, aoc_rs::AocError> {
         let input = input.trim();
         match input.parse::<i64>() {
             Ok(solution) => Ok(solution + 10),

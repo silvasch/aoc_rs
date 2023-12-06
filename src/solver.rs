@@ -7,7 +7,6 @@ use crate::{
 
 pub struct Solver {
     args: Args,
-    logger: Logger,
 
     day: u8,
 
@@ -24,11 +23,9 @@ impl Solver {
         part_two: (Box<dyn Solution>, Option<i64>),
     ) -> Self {
         let args = Args::parse();
-        let logger = Logger::new(!args.hide_log);
 
         Self {
             args,
-            logger,
             day,
             part_one_solution: part_one.0,
             part_one_expected: part_one.1,
@@ -40,7 +37,7 @@ impl Solver {
     pub fn solve(&mut self) -> Result<(), AocError> {
         let input = self.get_input()?;
         if self.args.print_input {
-            self.logger.lib_log(
+            Logger::lib_log(
                 &format!(">> input start\n{}\n>> input end", input),
                 LogLevel::Info,
             );
@@ -53,28 +50,29 @@ impl Solver {
         };
 
         if self.args.real {
-            match solution.get_solution(&input, &self.logger) {
+            match solution.get_solution(&input) {
                 Ok(solution) => {
-                    self.logger
-                        .lib_log(&format!("solution: {}", solution), LogLevel::Success);
+                    Logger::lib_log(&format!("solution: {}", solution), LogLevel::Success);
                     Ok(())
                 }
                 Err(e) => Err(e),
             }
         } else {
-            match solution.get_solution(&input, &self.logger) {
+            match solution.get_solution(&input) {
                 Ok(solution) => match expected {
                     Some(expected) => {
                         if expected == solution {
-                            self.logger.lib_log("test successfull", LogLevel::Success);
+                            Logger::lib_log("test successfull", LogLevel::Success);
                             Ok(())
                         } else {
                             Err(AocError::TestFailed(expected, solution))
                         }
                     }
                     None => {
-                        self.logger
-                            .lib_log(&format!("solution (test): {}", solution), LogLevel::Success);
+                        Logger::lib_log(
+                            &format!("solution (test): {}", solution),
+                            LogLevel::Success,
+                        );
                         Ok(())
                     }
                 },
@@ -95,7 +93,7 @@ impl Solver {
 
         let file_name = format!("input/day{:02}{}", self.day, file_suffix);
 
-        self.logger.lib_log(
+        Logger::lib_log(
             &format!("using '{}' as input file", file_name),
             LogLevel::Info,
         );

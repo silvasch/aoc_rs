@@ -1,8 +1,9 @@
+use clap::Parser;
 use colored::{ColoredString, Colorize};
 
-pub struct Logger {
-    active: bool,
-}
+use crate::args::Args;
+
+pub struct Logger;
 
 pub enum LogLevel {
     Info,
@@ -12,18 +13,14 @@ pub enum LogLevel {
 }
 
 impl Logger {
-    pub(crate) fn new(active: bool) -> Self {
-        Self { active }
-    }
-
-    pub fn log(&self, msg: &str, lvl: LogLevel) {
-        if !self.active {
+    pub fn log(msg: &str, lvl: LogLevel) {
+        if Args::parse().hide_log {
             return;
         }
         println!("{}", Logger::colorize(msg, lvl));
     }
 
-    pub(crate) fn lib_log(&self, msg: &str, lvl: LogLevel) {
+    pub(crate) fn lib_log(msg: &str, lvl: LogLevel) {
         println!(">> {}", Logger::colorize(msg, lvl));
     }
 
